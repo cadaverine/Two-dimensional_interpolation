@@ -5,6 +5,7 @@
 #include <vector>
 #include <iomanip>
 #include <iostream>
+#include <QMetaType>
 
 using std::vector;
 using std::setw;
@@ -22,13 +23,11 @@ class TableOfValues
 public:
     TableOfValues(int n = SIZE_X, int m = SIZE_Y);
 
-    TableOfValues(TableOfValues & t);
-
-    TableOfValues(Array &x, Array &y, Array2D &z);
+    TableOfValues(Array&, Array&, Array2D&);
 
     Array operator[](int);
 
-    TableOfValues & operator=(TableOfValues & t);
+    TableOfValues & operator=(TableOfValues&);
 
     Array   getX() const;
     Array   getY() const;
@@ -38,14 +37,12 @@ public:
 
     // Two-dimensional interpolation
     double interpolation2D(double, double, int, int);
-    
-protected:
 
     // One-dimensional interpolation
     double interpolation(Array, Array, double);
 
     // The method returns a rectangular configuration of interpolation points
-    TableOfValues & config(double, double, int, int);
+    TableOfValues * config(double, double, int, int);
 
     // Search zero index for the config() method
     int findIndex(Array, double, int);
@@ -54,10 +51,16 @@ protected:
     // z = f(x,y) = x^2 + y^2
     void setTable(int, int);
 
+    friend bool operator ==(const TableOfValues&, const TableOfValues&);
+
+    friend bool operator !=(const TableOfValues&, const TableOfValues&);
+
 private:
-    Array   x_;
-    Array   y_;
-    Array2D z_;
+    Array   _x;
+    Array   _y;
+    Array2D _z;
 };
+
+Q_DECLARE_METATYPE(TableOfValues)
 
 #endif // TABLEOFVALUES_H
