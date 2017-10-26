@@ -113,7 +113,7 @@ double TableOfValues::interpolation(Array Y, Array X, double x)
 	}
 
     // Assembly of Newton polynomial
-	double sum = 0;	
+    double sum = 0;	
     for(unsigned int i = 0; i < X.size(); ++i)
     {
         sum = divDiffr[i + 1];
